@@ -1,0 +1,8 @@
+.PathFindContainer {
+    max-width: 80%;
+    margin: auto;
+}
+
+.rowContainer {
+    display: flex;
+}
