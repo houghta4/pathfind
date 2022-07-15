@@ -6,3 +6,20 @@
 .rowContainer {
     display: flex;
 }
+
+button {
+    transition-duration: .2s;
+    background-color: #5783db;
+    color: white;
+    font-size: 20px;
+    padding: 10px 60px;
+    border-radius: 5px;
+    margin: 10px 10px;
+    cursor: pointer;
+    margin-left: 0px;
+}
+
+button:hover {
+    background-color: #5783dbdd;
+    box-shadow: 0 0 5px 2.5px gray;
+}

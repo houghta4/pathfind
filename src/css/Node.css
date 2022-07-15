@@ -11,3 +11,102 @@
 .node-end {
     background-color: red;
 }
+
+.node-wall {
+    background-color: black;
+}
+
+.node-visited {
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.node-path {
+    animation-name: shortestPath;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+/* TODO find good way to animate clear. Can't add a class then remove it without screwing up animation */
+/* .node-reset {
+    animation-name: resetMatrix;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+} */
+
+/* animations */
+
+@keyframes visitedAnimation {
+    0% {
+        transform: scale(.3);  /*  shrinks element  */
+        background-color: aqua;
+        border-radius: 10%;
+    }
+
+    25% {
+        background-color: aqua;
+        border-radius: 15%;
+    }
+
+    50% {
+        background-color: aqua;
+        border-radius: 25%;
+    }
+
+    75% {
+        transform: scale(1.2);
+        background-color: aqua;
+        border-radius: 15%;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: aqua;
+        border-radius: 0%;
+    }
+}
+
+@keyframes shortestPath {
+    0% {
+        transform: scale(.3);  /*  shrinks element  */
+        border-radius: 10%;
+    }
+
+    25% {
+        background-color: yellow;
+        border-radius: 15%;
+    }
+
+    50% {
+        background-color: orange;
+        border-radius: 25%;
+    }
+
+    75% {
+        transform: scale(1.2);
+        background-color: orange;
+        border-radius: 15%;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: yellow;
+        border-radius: 0%;
+    }
+}
