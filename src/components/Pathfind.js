@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Node from "./Node";
+import ButtonAlg from "./ButtonAlg";
 import Astar from "../algs/astar";
 import Dfs from "../algs/dfs";
 import "../css/Pathfind.css";
@@ -10,8 +11,6 @@ const ALGS = {
     Dijkstra: 2,
     bfs: 3,
 };
-
-let CHOSEN_ALG = "A*";
 
 //TODO reset matrix on buttonclick to account for user selected walls?
 
@@ -26,17 +25,21 @@ const NODE_START_ROW = 0,
     NODE_END_ROW = rows - 1,
     NODE_END_COL = cols - 1;
 
+let chosenAlg = '';
 
 const PathFind = () => {
     const [matrix, setMatrix] = useState([]);
-    const [path, setPath] = useState([]);
-    const [visitNodes, setVisitNodes] = useState([]);
-    // const [error, setError] = useState("");
+    const [isBusy, setIsBusy] = useState(false);
+    // const [path, setPath] = useState([]);
+    // const [visitNodes, setVisitNodes] = useState([]);
+    const [error, setError] = useState("");
 
 
     // similar to componentDidMount();
     useEffect(() => {
+        setIsBusy(true);
         setMatrix(createMatrix);
+        setIsBusy(false);
     }, [])
 
 
@@ -88,15 +91,16 @@ const PathFind = () => {
             matrix.push(newRow);
         }
         addNeighbors(matrix);
-
+        // matrix[0][1].isWall = true;
+        // matrix[1][0].isWall = true;
         // default to Astar
-        const startNode = matrix[NODE_START_ROW][NODE_START_COL];
-        const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-        startNode.isWall = false;
-        endNode.isWall = false;
-        let p = Astar(startNode, endNode);
-        setPath(p.path);
-        setVisitNodes(p.visitedNodes);
+        // const startNode = matrix[NODE_START_ROW][NODE_START_COL];
+        // const endNode = matrix[NODE_END_ROW][NODE_END_COL];
+        // startNode.isWall = false;
+        // endNode.isWall = false;
+        // let p = Astar(startNode, endNode);
+        // setPath(p.path);
+        // setVisitNodes(p.visitedNodes);
         
         return matrix;
     }
@@ -135,7 +139,7 @@ const PathFind = () => {
             }, 50 * i);
         }
     }
-    const visualizePath = () => {
+    const visualizePath = (path, visitNodes) => {
         for(let i = 1; i <= visitNodes.length; i++) {
             if (i === visitNodes.length){
                 setTimeout(() =>{    
@@ -146,12 +150,13 @@ const PathFind = () => {
                     const node = visitNodes[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = "node node-visited";
                 }, 20 * i);
-            }
-            
+            }   
         }
     };
 
     const resetMatrix = () => {
+        setError('');
+        chosenAlg = '';
         for(let i = 0; i < matrix.length; i++){
             for(let j = 0; j < matrix[i].length; j++){
                 if(!matrix[i][j].isStart && !matrix[i][j].isEnd && !matrix[i][j].isWall){
@@ -159,45 +164,90 @@ const PathFind = () => {
                 }
             }
         }
+        setIsBusy(false);
     }
 
     //TODO need a boolean state to show if we need to run this every button press
     //  spam clicking dfs crashes probably due to stack overflow
-    const searchMatrix = (algId) => {
+    // const searchMatrix = (algId) => {
 
-        //these will probably be pulled out of this method when a user can choose their own
+
+    //     //these will probably be pulled out of this method when a user can choose their own
+    //     const startNode = matrix[NODE_START_ROW][NODE_START_COL];
+    //     const endNode = matrix[NODE_END_ROW][NODE_END_COL];
+    //     console.log(algId);
+    //     console.log(CHOSEN_ALG);
+
+    //     startNode.isWall = false;
+    //     endNode.isWall = false;
+    //     let p = null;
+    //     if(algId == 0) {
+    //         console.log("Astar");
+    //         CHOSEN_ALG = "A*";
+    //         p = Astar(startNode, endNode);
+    //         setPath(p.path);
+    //         setVisitNodes(p.visitedNodes);
+    //     }else if (algId == 1){
+    //         console.log("Dfs");
+    //         CHOSEN_ALG = "Dfs";
+    //         p = Dfs(startNode, endNode);
+    //         setPath(p.path);
+    //         setVisitNodes(p.visitedNodes);
+    //     }
+    // }
+
+    const runAstar = () => {
         const startNode = matrix[NODE_START_ROW][NODE_START_COL];
         const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-        console.log(algId);
-        console.log(CHOSEN_ALG);
-
         startNode.isWall = false;
         endNode.isWall = false;
-        let p = null;
-        if(algId == 0) {
-            console.log("Astar");
-            CHOSEN_ALG = "A*";
-            p = Astar(startNode, endNode);
-            setPath(p.path);
-            setVisitNodes(p.visitedNodes);
-        }else if (algId == 1){
-            console.log("Dfs");
-            CHOSEN_ALG = "Dfs";
-            p = Dfs(startNode, endNode);
-            setPath(p.path);
-            setVisitNodes(p.visitedNodes);
-        }
-    }
-    /* Temporary way to switch algs with buttons.
-        Definitely better to find what alg is picked using props and another component  */
+        let p = Astar(startNode, endNode);
+        setError(p.error);
+        visualizePath(p.path, p.visitedNodes);
+    };
+
+    const runDfs = () => {
+        const startNode = matrix[NODE_START_ROW][NODE_START_COL];
+        const endNode = matrix[NODE_END_ROW][NODE_END_COL];
+        startNode.isWall = false;
+        endNode.isWall = false;
+        let p = Dfs(startNode, endNode);
+        visualizePath(p.path, p.visitedNodes);
+    };
     return (
         <div className="PathFindContainer">
-            <h1>Pathfinding Algorithm - {CHOSEN_ALG}</h1>
-            <button value={ALGS.Astar} onClick={n => searchMatrix(n.target.value)} autoFocus>A*</button>
-            <button value={ALGS.Dfs} onClick={n => searchMatrix(n.target.value)}>Dfs</button>
+            <h1>Pathfinding Algorithm - {chosenAlg}</h1>
+            <br />
+            <ButtonAlg 
+                name="Astar" 
+                onClick={n => {
+                    if(isBusy){
+                        console.log("Can't run astar. busy");
+                        if(!error)
+                            setError("Wait until current search is finished");
+                        return;
+                    }
+                    setIsBusy(true);
+                    chosenAlg = "Astar"
+                    runAstar();
+                }} />
+            <ButtonAlg name="Dfs" 
+                onClick={n => {
+                    if(isBusy){
+                        console.log("Can't run dfs. busy");
+                        setError("Wait until current search is finished");
+                        return;
+                    } 
+                    setIsBusy(true);
+                    chosenAlg = "Dfs";
+                    runDfs();
+                }} />
+            {/* <button value={ALGS.Astar} onClick={n => searchMatrix(n.target.value)} autoFocus>A*</button>
+            <button value={ALGS.Dfs} onClick={n => searchMatrix(n.target.value)}>Dfs</button> */}
             <br/>
-            <button onClick={visualizePath}>Search</button>
+            {/* <button onClick={visualizePath}>Search</button> */}
             <button onClick={resetMatrix}>Clear</button>
+            {error && <div className="error">{error}</div>}
             {matrixWithNodes}
         </div>
     );

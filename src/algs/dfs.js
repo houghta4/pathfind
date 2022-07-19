@@ -3,6 +3,9 @@ let visitedNodes = [],
     path = [];
 
 function Dfs(startNode, endNode) {
+    //global vars not re initialized?
+    visitedNodes = [];
+    path = [];
     dfsUtil(startNode, endNode);
     console.log(visitedNodes);
     return {path, visitedNodes};
@@ -18,7 +21,6 @@ function dfsUtil(cur, endNode) {
     if (cur === endNode){
         return;
     }
-
     visitedNodes.push(cur);
 
     for(let i of cur.neighbors){

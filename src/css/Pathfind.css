@@ -23,3 +23,14 @@ button:hover {
     background-color: #5783dbdd;
     box-shadow: 0 0 5px 2.5px gray;
 }
+
+/* TODO make this look good (because it definitely doesn't right now) */
+.error {
+    display: inline-block;
+    padding: 10px 10px;
+    width: fit-content;
+    color: white;
+    background-color: magenta;
+    font-size: large;
+    font-weight: bold;
+}
