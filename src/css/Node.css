@@ -12,8 +12,17 @@
     background-color: red;
 }
 
+/* TODO maybe in the future this will be an image? */
 .node-wall {
     background-color: black;
+    /* animation-name: wallAnimation;
+    animation-duration: .1s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running; */
 }
 
 .node-visited {
@@ -51,6 +60,19 @@
 } */
 
 /* animations */
+
+
+/* TODO each keyframe is causing an event to trigger, so creating walls while holding down just immediately removes them :( */
+/* @keyframes wallAnimation {
+    0% {
+        border-radius: 100%;
+        transform: scale(.5);
+    }
+    100% {
+        border-radius: 0%;
+        transform: scale(1);
+    }
+} */
 
 @keyframes visitedAnimation {
     0% {

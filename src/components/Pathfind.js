@@ -33,6 +33,7 @@ const PathFind = () => {
     // const [path, setPath] = useState([]);
     // const [visitNodes, setVisitNodes] = useState([]);
     const [error, setError] = useState("");
+    const [mouseClicked, setMouseClicked] = useState(false);
 
 
     // similar to componentDidMount();
@@ -103,10 +104,42 @@ const PathFind = () => {
         // setVisitNodes(p.visitedNodes);
         
         return matrix;
-    }
+    };
 
-    //matrix with nodes
+    //only refreshing the dom if return a new object?
+    const updateMatrix = (row, col) => {
+        matrix[row][col].isWall = !matrix[row][col].isWall;
+        setMatrix(matrix.slice());
+    };
+
+    //what component do i give this to: eventual grid component
+    // const mouseLeaveHandler = () => {
+    //     setMouseClicked(false);
+    // };
+
+    const mouseEnterHandler = (row, col) => {
+        if (!mouseClicked)
+            return;
+        // console.log("entering");
+        updateMatrix(row, col);
+    };
+
+    const mouseDownHandler = (row, col) => {
+        // console.log("down");
+        setMouseClicked(true);
+        updateMatrix(row, col);
+    };
+
+    const mouseUpHandler = () => {
+        // console.log("up");
+        setMouseClicked(false);
+    };
+
+
+    //TODO make this into its own component to separate grid from buttons.
+    //Can also use onMouseLeave on it
     const matrixWithNodes = (
+        //matrix with nodes
         <div>
             {matrix.map((row, i) => {
                 return (
@@ -115,12 +148,16 @@ const PathFind = () => {
                             const {isStart, isEnd, isWall} = col;
                             return (
                                 <Node 
+                                    draggable
                                     key={j}
                                     row={i}
                                     col={j}
                                     isStart={isStart}
                                     isEnd={isEnd}
                                     isWall={isWall}
+                                    onMouseEnter={(r, c) => mouseEnterHandler(r, c)}
+                                    onMouseDown={(r, c) => mouseDownHandler(r, c)}
+                                    onMouseUp={mouseUpHandler}
                                 ></Node>
                             );
                         })}
@@ -165,36 +202,7 @@ const PathFind = () => {
             }
         }
         setIsBusy(false);
-    }
-
-    //TODO need a boolean state to show if we need to run this every button press
-    //  spam clicking dfs crashes probably due to stack overflow
-    // const searchMatrix = (algId) => {
-
-
-    //     //these will probably be pulled out of this method when a user can choose their own
-    //     const startNode = matrix[NODE_START_ROW][NODE_START_COL];
-    //     const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-    //     console.log(algId);
-    //     console.log(CHOSEN_ALG);
-
-    //     startNode.isWall = false;
-    //     endNode.isWall = false;
-    //     let p = null;
-    //     if(algId == 0) {
-    //         console.log("Astar");
-    //         CHOSEN_ALG = "A*";
-    //         p = Astar(startNode, endNode);
-    //         setPath(p.path);
-    //         setVisitNodes(p.visitedNodes);
-    //     }else if (algId == 1){
-    //         console.log("Dfs");
-    //         CHOSEN_ALG = "Dfs";
-    //         p = Dfs(startNode, endNode);
-    //         setPath(p.path);
-    //         setVisitNodes(p.visitedNodes);
-    //     }
-    // }
+    };
 
     const runAstar = () => {
         const startNode = matrix[NODE_START_ROW][NODE_START_COL];
@@ -214,6 +222,7 @@ const PathFind = () => {
         let p = Dfs(startNode, endNode);
         visualizePath(p.path, p.visitedNodes);
     };
+
     return (
         <div className="PathFindContainer">
             <h1>Pathfinding Algorithm - {chosenAlg}</h1>
@@ -224,7 +233,7 @@ const PathFind = () => {
                     if(isBusy){
                         console.log("Can't run astar. busy");
                         if(!error)
-                            setError("Wait until current search is finished");
+                            setError("Wait until current search is finished or Clear");
                         return;
                     }
                     setIsBusy(true);
@@ -235,7 +244,7 @@ const PathFind = () => {
                 onClick={n => {
                     if(isBusy){
                         console.log("Can't run dfs. busy");
-                        setError("Wait until current search is finished");
+                        setError("Wait until current search is finished or Clear");
                         return;
                     } 
                     setIsBusy(true);

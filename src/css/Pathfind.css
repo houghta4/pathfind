@@ -29,8 +29,9 @@ button:hover {
     display: inline-block;
     padding: 10px 10px;
     width: fit-content;
-    color: white;
-    background-color: magenta;
+    color: black;
+    background-color: mediumvioletred;
     font-size: large;
     font-weight: bold;
+    box-shadow: 0 0 5px 2.5px gray;
 }
