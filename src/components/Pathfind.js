@@ -1,8 +1,17 @@
 import React, {useState, useEffect} from "react";
 import Node from "./Node";
 import Astar from "../algs/astar";
-import "../css/Pathfind.css"
+import Dfs from "../algs/dfs";
+import "../css/Pathfind.css";
 
+const ALGS = {
+    Astar: 0,
+    Dfs: 1,
+    Dijkstra: 2,
+    bfs: 3,
+};
+
+let CHOSEN_ALG = "A*";
 
 //TODO reset matrix on buttonclick to account for user selected walls?
 
@@ -22,7 +31,7 @@ const PathFind = () => {
     const [matrix, setMatrix] = useState([]);
     const [path, setPath] = useState([]);
     const [visitNodes, setVisitNodes] = useState([]);
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
 
 
     // similar to componentDidMount();
@@ -79,19 +88,16 @@ const PathFind = () => {
             matrix.push(newRow);
         }
         addNeighbors(matrix);
+
+        // default to Astar
         const startNode = matrix[NODE_START_ROW][NODE_START_COL];
         const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-
-        //TODO set up way for multiple algs. all need a path and visitedNodes
-
         startNode.isWall = false;
         endNode.isWall = false;
-        // matrix[1][0].isWall = true;
-        // matrix[0][1].isWall = true;
         let p = Astar(startNode, endNode);
         setPath(p.path);
         setVisitNodes(p.visitedNodes);
-        setError(p.error);
+        
         return matrix;
     }
 
@@ -154,9 +160,42 @@ const PathFind = () => {
             }
         }
     }
+
+    //TODO need a boolean state to show if we need to run this every button press
+    //  spam clicking dfs crashes probably due to stack overflow
+    const searchMatrix = (algId) => {
+
+        //these will probably be pulled out of this method when a user can choose their own
+        const startNode = matrix[NODE_START_ROW][NODE_START_COL];
+        const endNode = matrix[NODE_END_ROW][NODE_END_COL];
+        console.log(algId);
+        console.log(CHOSEN_ALG);
+
+        startNode.isWall = false;
+        endNode.isWall = false;
+        let p = null;
+        if(algId == 0) {
+            console.log("Astar");
+            CHOSEN_ALG = "A*";
+            p = Astar(startNode, endNode);
+            setPath(p.path);
+            setVisitNodes(p.visitedNodes);
+        }else if (algId == 1){
+            console.log("Dfs");
+            CHOSEN_ALG = "Dfs";
+            p = Dfs(startNode, endNode);
+            setPath(p.path);
+            setVisitNodes(p.visitedNodes);
+        }
+    }
+    /* Temporary way to switch algs with buttons.
+        Definitely better to find what alg is picked using props and another component  */
     return (
         <div className="PathFindContainer">
-            <h1>Pathfind Component</h1>
+            <h1>Pathfinding Algorithm - {CHOSEN_ALG}</h1>
+            <button value={ALGS.Astar} onClick={n => searchMatrix(n.target.value)} autoFocus>A*</button>
+            <button value={ALGS.Dfs} onClick={n => searchMatrix(n.target.value)}>Dfs</button>
+            <br/>
             <button onClick={visualizePath}>Search</button>
             <button onClick={resetMatrix}>Clear</button>
             {matrixWithNodes}
