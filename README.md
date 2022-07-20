@@ -1,8 +1,14 @@
-## Features completed or in progress
-* Walls can be placed by clicking a single node or clicking and dragging over multiple
+# Features completed or in progress
+* Walls can be placed by clicking a single node or clicking and dragging over multiple nodes
   * Random wall button to place them automatically
-* Click and drag the start and end points for the algorithms to use
+  
+* Move the start and end nodes by clicking and draging from the default location.
+  * Searches that happen after a move will reflect these changes.  
+ 
 * Clear button to clear results of last search (does not clear walls or start/end)
+* Algorithms
+  * A*
+  * Dfs
 
 # Pathfinding
 
