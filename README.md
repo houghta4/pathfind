@@ -10,8 +10,33 @@
 * Error messages if the user tries to edit the board without clearing first, attempts to run another search while there is one already running, or if there is no path
 
 * Algorithms
-  * [A*](### A*)
+  * [A*](###A*)
   * Dfs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Pathfinding
 
