@@ -1,5 +1,10 @@
 # Features completed or in progress
-* Walls can be placed by clicking a single node or clicking and dragging over multiple nodes
+
+* [Algorithms](#Algorithms)
+  * A*
+  * Dfs
+  
+* [Walls can be placed by clicking a single node or clicking and dragging over multiple nodes](#Walls)
   * Random wall button to place them automatically
   
 * Start and end nodes can be moved by clicking and draging them from the default location
@@ -9,9 +14,6 @@
 
 * Error messages if the user tries to edit the board without clearing first, attempts to run another search while there is one already running, or if there is no path
 
-* [Algorithms](#Algorithms)
-  * A*
-  * Dfs
 
 
 # Algorithms
@@ -20,4 +22,9 @@
 
 https://user-images.githubusercontent.com/69610185/179322370-b7857c5e-6ea4-489c-82b2-d810d24a5eb8.mp4
 
+
+# Walls
+
+
+https://user-images.githubusercontent.com/69610185/179873052-65b4f323-fc09-4d54-9b75-f4e5d9f65792.mp4
 
