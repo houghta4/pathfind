@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Node from "./Node";
 import ButtonAlg from "./ButtonAlg";
+import PathFindToolbar from "./PathFindToolbar";
 import Astar from "../algs/astar";
 import Dfs from "../algs/dfs";
 import "../css/Pathfind.css";
+import AlgEnum from "../constants/AlgEnum";
 
 
 // TODO user selected size
@@ -22,12 +24,16 @@ const PathFind = () => {
     const [isBusy, setIsBusy] = useState(false);
     // const [path, setPath] = useState([]);
     // const [visitNodes, setVisitNodes] = useState([]);
+
+    //TODO these will all change with refactoring
     const [error, setError] = useState("");
     const [mouseClicked, setMouseClicked] = useState(false);
     const [endMove, setEndMove] = useState(false);
     const [startMove, setStartMove] = useState(false);
     const [startNode, setStartNode] = useState(null);
     const [endNode, setEndNode] = useState(null);
+
+    const[alg, setAlg] = useState(0);
 
     // similar to componentDidMount();
     useEffect(() => {
@@ -38,27 +44,27 @@ const PathFind = () => {
 
 
     const addNeighbors = (m) => {
-        for(let i = 0; i < rows; i++){
-            for(let j = 0; j < cols; j++){
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
 
                 //S
-                if(i < rows - 1){
+                if (i < rows - 1) {
                     m[i][j].neighbors.push(m[i + 1][j])
                 }
                 //W
-                if(j > 0){
+                if (j > 0) {
                     m[i][j].neighbors.push(m[i][j - 1]);
                 }
                 //N
-                if (i > 0){
+                if (i > 0) {
                     m[i][j].neighbors.push(m[i - 1][j]);
                 }
                 //E
-                if(j < cols - 1){
+                if (j < cols - 1) {
                     m[i][j].neighbors.push(m[i][j + 1]);
                 }
-                
-                
+
+
             }
         }
     };
@@ -67,26 +73,26 @@ const PathFind = () => {
         return {
             row,
             col,
-            isStart : row === NODE_START_ROW && col === NODE_START_COL,
-            isEnd : row === NODE_END_ROW && col === NODE_END_COL,
-            dist : Infinity,
-            isVisited : false,
+            isStart: row === NODE_START_ROW && col === NODE_START_COL,
+            isEnd: row === NODE_END_ROW && col === NODE_END_COL,
+            dist: Infinity,
+            isVisited: false,
             //TODO user selected walls
-            isWall : false,
-            weight : 0,
+            isWall: false,
+            weight: 0,
             prevNode: null,
             neighbors: [],
-            f : 0,
-            g : 0,
-            h : 0,
+            f: 0,
+            g: 0,
+            h: 0,
         };
     };
 
     const createMatrix = () => {
         const matrix = [];
-        for(let i = 0; i < rows; i++){
+        for (let i = 0; i < rows; i++) {
             const newRow = [];
-            for(let j = 0; j < cols; j++){
+            for (let j = 0; j < cols; j++) {
                 newRow.push(createNode(i, j));
             }
             matrix.push(newRow);
@@ -95,7 +101,7 @@ const PathFind = () => {
         matrix[NODE_START_ROW][NODE_START_COL].isWall = false;
         matrix[NODE_END_ROW][NODE_END_COL].isWall = false;
         setStartNode(matrix[NODE_START_ROW][NODE_START_COL]);
-        setEndNode(matrix[NODE_END_ROW][NODE_END_COL]);        
+        setEndNode(matrix[NODE_END_ROW][NODE_END_COL]);
         return matrix;
     };
 
@@ -107,7 +113,7 @@ const PathFind = () => {
     };
 
     //TODO running into issues where if the user clicks before the state is set it will do weird things
-    
+
     const updateMatrixEnd = (row, col) => {
         console.log("end");
         matrix[row][col].isEnd = !matrix[row][col].isEnd;
@@ -123,9 +129,9 @@ const PathFind = () => {
     const mouseLeaveHandler = (row, col) => {
         if (!mouseClicked)
             return;
-        if(startMove){
+        if (startMove) {
             updateMatrixStart(row, col);
-        }else if (endMove){
+        } else if (endMove) {
             updateMatrixEnd(row, col);
         }
     };
@@ -134,42 +140,42 @@ const PathFind = () => {
         if (!mouseClicked)
             return;
         // console.log("entering");
-        if(startMove){
+        if (startMove) {
             updateMatrixStart(row, col);
-        }else if (endMove){
+        } else if (endMove) {
             updateMatrixEnd(row, col);
-        }else {
+        } else {
             updateMatrixWall(row, col);
         }
     };
 
     const mouseDownHandler = (row, col) => {
-        if(isBusy){
+        if (isBusy) {
             setError("Clear board before editing!");
-            return; 
+            return;
         }
         setMouseClicked(true);
-        if(matrix[row][col].isStart){
+        if (matrix[row][col].isStart) {
             setStartMove(true);
-        }else if (matrix[row][col].isEnd){
+        } else if (matrix[row][col].isEnd) {
             setEndMove(true);
-        }else {
+        } else {
             updateMatrixWall(row, col);
         }
 
-       
+
     };
 
     const mouseUpHandler = (row, col) => {
         console.log(row, col);
         // console.log("up");
-        if(endMove){
+        if (endMove) {
             matrix[row][col].isWall = false;
             setMatrix(matrix.slice());
             setEndNode(matrix[row][col]);
             console.log(endNode);
         }
-        if(startMove){
+        if (startMove) {
             matrix[row][col].isWall = false;
             setMatrix(matrix.slice());
             setStartNode(matrix[row][col]);
@@ -190,9 +196,9 @@ const PathFind = () => {
                 return (
                     <div key={i} className="rowContainer">
                         {row.map((col, j) => {
-                            const {isStart, isEnd, isWall} = col;
+                            const { isStart, isEnd, isWall } = col;
                             return (
-                                <Node 
+                                <Node
                                     draggable
                                     key={j}
                                     row={i}
@@ -203,7 +209,7 @@ const PathFind = () => {
                                     onMouseLeave={(r, c) => mouseLeaveHandler(r, c)}
                                     onMouseEnter={(r, c) => mouseEnterHandler(r, c)}
                                     onMouseDown={(r, c) => mouseDownHandler(r, c)}
-                                    onMouseUp={(r,c) => mouseUpHandler(r, c)}
+                                    onMouseUp={(r, c) => mouseUpHandler(r, c)}
                                 ></Node>
                             );
                         })}
@@ -215,34 +221,35 @@ const PathFind = () => {
     // console.log(path);
 
     const visualizeShortestPath = (shortestPath) => {
-        for(let i = 1; i < shortestPath.length - 1; i++) {
-            setTimeout(() =>{    
+        for (let i = 1; i < shortestPath.length - 1; i++) {
+            setTimeout(() => {
                 const node = shortestPath[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = "node node-path";
             }, 50 * i);
         }
     }
     const visualizePath = (path, visitNodes) => {
-        for(let i = 1; i <= visitNodes.length; i++) {
-            if (i === visitNodes.length){
-                setTimeout(() =>{    
+        for (let i = 1; i <= visitNodes.length; i++) {
+            if (i === visitNodes.length) {
+                setTimeout(() => {
                     visualizeShortestPath(path);
                 }, 20 * i);
             } else {
-                setTimeout(() =>{    
+                setTimeout(() => {
                     const node = visitNodes[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = "node node-visited";
                 }, 20 * i);
-            }   
+            }
         }
     };
 
+    /* TODO need good way to block clear during animation. hard to tell when its done because each node has its own */
     const resetMatrix = () => {
         setError('');
         chosenAlg = '';
-        for(let i = 0; i < matrix.length; i++){
-            for(let j = 0; j < matrix[i].length; j++){
-                if(!matrix[i][j].isStart && !matrix[i][j].isEnd && !matrix[i][j].isWall){
+        for (let i = 0; i < matrix.length; i++) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                if (!matrix[i][j].isStart && !matrix[i][j].isEnd && !matrix[i][j].isWall) {
                     document.getElementById(`node-${i}-${j}`).className = "node ";
                 }
             }
@@ -251,13 +258,13 @@ const PathFind = () => {
     };
 
     const randomWalls = () => {
-        if(isBusy){
+        if (isBusy) {
             setError("Clear board before editing!");
-            return; 
+            return;
         }
-        for(let i = 0; i < matrix.length; i++){
-            for(let j = 0; j < matrix[i].length; j++){
-                if(!matrix[i][j].isStart && !matrix[i][j].isEnd)
+        for (let i = 0; i < matrix.length; i++) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                if (!matrix[i][j].isStart && !matrix[i][j].isEnd)
                     matrix[i][j].isWall = Math.random(1) < .2 ? true : false
             }
         }
@@ -265,10 +272,6 @@ const PathFind = () => {
     };
 
     const runAstar = () => {
-        // const startNode = matrix[NODE_START_ROW][NODE_START_COL];
-        // const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-        // startNode.isWall = false;
-        // endNode.isWall = false;
         console.log("startnode" + startNode);
         console.log("endnode" + endNode);
         let p = Astar(startNode, endNode);
@@ -277,52 +280,79 @@ const PathFind = () => {
     };
 
     const runDfs = () => {
-        // const startNode = matrix[NODE_START_ROW][NODE_START_COL];
-        // const endNode = matrix[NODE_END_ROW][NODE_END_COL];
-        // startNode.isWall = false;
-        // endNode.isWall = false;
         let p = Dfs(startNode, endNode);
         visualizePath(p.path, p.visitedNodes);
     };
 
-    return (
-        <div className="PathFindContainer">
-            <h1>Pathfinding Algorithm - {chosenAlg}</h1>
-            <br />
-            <ButtonAlg 
-                name="Astar" 
-                onClick={n => {
-                    if(isBusy){
-                        console.log("Can't run astar. busy");
-                        if(!error)
-                            setError("Wait until current search is finished or Clear");
-                        return;
-                    }
-                    setIsBusy(true);
-                    chosenAlg = "Astar"
-                    runAstar();
-                }} 
-            />
-            <ButtonAlg name="Dfs" 
-                onClick={n => {
-                    if(isBusy){
-                        console.log("Can't run dfs. busy");
-                        setError("Wait until current search is finished or Clear");
-                        return;
-                    } 
-                    setIsBusy(true);
-                    chosenAlg = "Dfs";
-                    runDfs();
-                }} 
-            />            
-            {/* TODO need good way to block clear during animation. hard to tell when its done because each node has its own */}
+    const btnAlgHandler = () => {
 
-            <br />
-            <button onClick={resetMatrix}>Clear</button>
-            <button onClick={randomWalls}>Random Walls</button>
-            {error && <div className="error">{error}</div>}
-            {matrixWithNodes}
-        </div>
+        console.log("btnAlgHndler: " +  alg);
+
+        if (isBusy) {
+            console.log("Can't run astar. busy");
+            if (!error)
+                setError("Wait until current search is finished or Clear");
+            return;
+        }
+        if(alg == 0){
+            setError("Choose a valid algorithm before searching!");
+
+        } else if (alg == 1){
+            setIsBusy(true);
+            chosenAlg = "Astar"
+            runAstar();
+        } else if (alg == 2) {
+            setIsBusy(true);
+            chosenAlg = "Dfs";
+            runDfs();
+        }
+        
+    };
+
+    //alg selection is handled in the toolbar now.
+
+    return (
+        <>
+            <PathFindToolbar 
+                onSearch={btnAlgHandler}
+                setAlg={setAlg}
+                onClear={resetMatrix}
+                onRandomWalls={randomWalls}
+                />
+            <div className="PathFindContainer">
+                <h1>Pathfinding Algorithm - {chosenAlg}</h1>
+                <br />
+                {/* <ButtonAlg
+                    name="Astar"
+                    onClick={n => {
+                        if (isBusy) {
+                            console.log("Can't run astar. busy");
+                            if (!error)
+                                setError("Wait until current search is finished or Clear");
+                            return;
+                        }
+                        setIsBusy(true);
+                        chosenAlg = "Astar"
+                        runAstar();
+                    }}
+                /> */}
+                {/* <ButtonAlg name="Dfs"
+                    onClick={n => {
+                        if (isBusy) {
+                            console.log("Can't run dfs. busy");
+                            setError("Wait until current search is finished or Clear");
+                            return;
+                        }
+                        setIsBusy(true);
+                        chosenAlg = "Dfs";
+                        runDfs();
+                    }}
+                /> */}
+                
+                {error && <div className="error">{error}</div>}
+                {matrixWithNodes}
+            </div>
+        </>
     );
 };
 
