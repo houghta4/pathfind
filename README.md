@@ -7,6 +7,8 @@
  
 * Clear button that clears the visited nodes and path nodes of the last search (does not clear walls or start/end)
 
+* Error messages if the user tries to edit the board without clearing first, attempts to run another search while there is one already running, or if there is no path
+
 * Algorithms
   * A*
   * Dfs
