@@ -1,4 +1,4 @@
-# Features completed or in progress
+# Features (WIP)
 
 * [Algorithms](#Algorithms)
   * A*
@@ -12,7 +12,7 @@
  
 * Clear button that clears the visited nodes and path nodes of the last search (does not clear walls or start/end)
 
-* Error messages if the user tries to edit the board without clearing first, attempts to run another search while there is one already running, or if there is no path
+* Error messages if the user tries to edit the board before clearing, attempts to run another search before clearing, or if there is no path
 
 
 
