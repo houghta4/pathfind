@@ -19,7 +19,7 @@ function Astar(startNode, endNode){
             let temp = cur;
             path.push(temp);
             while(temp.prevNode !== null) {
-                path.push(temp.prevNode);
+                    push(temp.prevNode);
                 temp = temp.prevNode;
             }
             return {path, visitedNodes};
