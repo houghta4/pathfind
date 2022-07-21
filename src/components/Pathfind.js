@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Node from "./Node";
-import ButtonAlg from "./ButtonAlg";
+import ButtonAlg from "./ButtonAlg"; // probably wont need anymore
+import Error from "./Error";
+import Alert from "react-bootstrap/Alert";
 import PathFindToolbar from "./PathFindToolbar";
 import Astar from "../algs/astar";
 import Dfs from "../algs/dfs";
@@ -17,23 +19,20 @@ const NODE_START_ROW = 0,
     NODE_END_ROW = rows - 1,
     NODE_END_COL = cols - 1;
 
-let chosenAlg = '';
-
 const PathFind = () => {
     const [matrix, setMatrix] = useState([]);
     const [isBusy, setIsBusy] = useState(false);
-    // const [path, setPath] = useState([]);
-    // const [visitNodes, setVisitNodes] = useState([]);
+    const [error, setError] = useState("");
 
     //TODO these will all change with refactoring
-    const [error, setError] = useState("");
     const [mouseClicked, setMouseClicked] = useState(false);
     const [endMove, setEndMove] = useState(false);
     const [startMove, setStartMove] = useState(false);
     const [startNode, setStartNode] = useState(null);
     const [endNode, setEndNode] = useState(null);
+    const [alg, setAlg] = useState(0);
 
-    const[alg, setAlg] = useState(0);
+    //TODO animate checked state will instantly show visited/path without delay or animations. button already set up
 
     // similar to componentDidMount();
     useEffect(() => {
@@ -46,15 +45,6 @@ const PathFind = () => {
     const addNeighbors = (m) => {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
-
-                //S
-                if (i < rows - 1) {
-                    m[i][j].neighbors.push(m[i + 1][j])
-                }
-                //W
-                if (j > 0) {
-                    m[i][j].neighbors.push(m[i][j - 1]);
-                }
                 //N
                 if (i > 0) {
                     m[i][j].neighbors.push(m[i - 1][j]);
@@ -63,8 +53,14 @@ const PathFind = () => {
                 if (j < cols - 1) {
                     m[i][j].neighbors.push(m[i][j + 1]);
                 }
-
-
+                //S
+                if (i < rows - 1) {
+                    m[i][j].neighbors.push(m[i + 1][j])
+                }
+                //W
+                if (j > 0) {
+                    m[i][j].neighbors.push(m[i][j - 1]);
+                }
             }
         }
     };
@@ -77,7 +73,6 @@ const PathFind = () => {
             isEnd: row === NODE_END_ROW && col === NODE_END_COL,
             dist: Infinity,
             isVisited: false,
-            //TODO user selected walls
             isWall: false,
             weight: 0,
             prevNode: null,
@@ -112,20 +107,20 @@ const PathFind = () => {
         setMatrix(matrix.slice());
     };
 
-    //TODO running into issues where if the user clicks before the state is set it will do weird things
+    //TODO running into issues where clicking quickly causes mouse up and down events to do weird things
 
     const updateMatrixEnd = (row, col) => {
-        console.log("end");
+        // console.log("end");
         matrix[row][col].isEnd = !matrix[row][col].isEnd;
         setMatrix(matrix.slice());
     };
 
     const updateMatrixStart = (row, col) => {
-        console.log("start");
+        // console.log("start");
         matrix[row][col].isStart = !matrix[row][col].isStart;
         setMatrix(matrix.slice());
     };
-    //what component do i give this to: eventual grid component
+    
     const mouseLeaveHandler = (row, col) => {
         if (!mouseClicked)
             return;
@@ -151,9 +146,9 @@ const PathFind = () => {
 
     const mouseDownHandler = (row, col) => {
         if (isBusy) {
-            setError("Clear board before editing!");
+            setError("Clear path before editing!");
             return;
-        }
+        };
         setMouseClicked(true);
         if (matrix[row][col].isStart) {
             setStartMove(true);
@@ -167,7 +162,7 @@ const PathFind = () => {
     };
 
     const mouseUpHandler = (row, col) => {
-        console.log(row, col);
+        // console.log(row, col);
         // console.log("up");
         if (endMove) {
             matrix[row][col].isWall = false;
@@ -188,7 +183,6 @@ const PathFind = () => {
 
 
     //TODO make this into its own component to separate grid from buttons.
-    //Can also use onMouseLeave on it
     const matrixWithNodes = (
         //matrix with nodes
         <div>
@@ -218,7 +212,6 @@ const PathFind = () => {
             })}
         </div>
     );
-    // console.log(path);
 
     const visualizeShortestPath = (shortestPath) => {
         for (let i = 1; i < shortestPath.length - 1; i++) {
@@ -246,7 +239,6 @@ const PathFind = () => {
     /* TODO need good way to block clear during animation. hard to tell when its done because each node has its own */
     const resetMatrix = () => {
         setError('');
-        chosenAlg = '';
         for (let i = 0; i < matrix.length; i++) {
             for (let j = 0; j < matrix[i].length; j++) {
                 if (!matrix[i][j].isStart && !matrix[i][j].isEnd && !matrix[i][j].isWall) {
@@ -257,9 +249,24 @@ const PathFind = () => {
         setIsBusy(false);
     };
 
+    const resetWalls = () => {
+        if (isBusy) {
+            setError("Clear path before editing!");
+            return;
+        }
+        for (let i = 0; i < matrix.length; i++) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                let node = matrix[i][j];
+                if (!node.isStart && !node.isEnd && node.isWall)
+                    node.isWall = !node.isWall;
+            }
+        }
+        setMatrix(matrix.slice());
+    };
+
     const randomWalls = () => {
         if (isBusy) {
-            setError("Clear board before editing!");
+            setError("Clear path before editing!");
             return;
         }
         for (let i = 0; i < matrix.length; i++) {
@@ -286,71 +293,51 @@ const PathFind = () => {
 
     const btnAlgHandler = () => {
 
-        console.log("btnAlgHndler: " +  alg);
+        console.log("btnAlgHndler: " + alg);
 
         if (isBusy) {
             console.log("Can't run astar. busy");
-            if (!error)
-                setError("Wait until current search is finished or Clear");
+            setError("Wait until current search is finished or Clear path");
             return;
         }
-        if(alg == 0){
+        if (alg == AlgEnum.None) {
             setError("Choose a valid algorithm before searching!");
 
-        } else if (alg == 1){
+        } else if (alg == AlgEnum.A_STAR) {
             setIsBusy(true);
-            chosenAlg = "Astar"
             runAstar();
-        } else if (alg == 2) {
+        } else if (alg == AlgEnum.DFS) {
             setIsBusy(true);
-            chosenAlg = "Dfs";
             runDfs();
         }
-        
+
     };
 
     //alg selection is handled in the toolbar now.
-
     return (
         <>
-            <PathFindToolbar 
+            <PathFindToolbar
                 onSearch={btnAlgHandler}
                 setAlg={setAlg}
                 onClear={resetMatrix}
                 onRandomWalls={randomWalls}
-                />
-            <div className="PathFindContainer">
-                <h1>Pathfinding Algorithm - {chosenAlg}</h1>
+                onClearWalls={resetWalls}
+            />
+            <div className="PathFindContainer center">
                 <br />
-                {/* <ButtonAlg
-                    name="Astar"
-                    onClick={n => {
-                        if (isBusy) {
-                            console.log("Can't run astar. busy");
-                            if (!error)
-                                setError("Wait until current search is finished or Clear");
-                            return;
-                        }
-                        setIsBusy(true);
-                        chosenAlg = "Astar"
-                        runAstar();
-                    }}
-                /> */}
-                {/* <ButtonAlg name="Dfs"
-                    onClick={n => {
-                        if (isBusy) {
-                            console.log("Can't run dfs. busy");
-                            setError("Wait until current search is finished or Clear");
-                            return;
-                        }
-                        setIsBusy(true);
-                        chosenAlg = "Dfs";
-                        runDfs();
-                    }}
-                /> */}
-                
-                {error && <div className="error">{error}</div>}
-                {matrixWithNodes}
+
+                {/* Alert is react-bootstrap  */}
+                {error && <Alert 
+                    variant={"danger"}
+                    onClose={() => setError('')}
+                    dismissible>
+                        {error}
+                </Alert>}
+                {/* TODO this is its own component */}
+                <div className="matrixContainer center">
+                    {matrixWithNodes}
+                </div>
+
             </div>
         </>
     );

@@ -16,6 +16,37 @@ code {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.toolbarRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.toolbarContainer {
+  padding: 0 60px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  float: none;
+  clear: both;
+  justify-content: center;
+  background-color: whitesmoke;
+}
+
+
+.toolbarItem {
+  justify-items: center;
+  text-align: center;
+  padding: 10px 10px;
+  border-right: 1px solid #e6e6e6;
+  /* border-left: 1px solid #e6e6e6; */
+}
+
+.toolbarItem:first-child{
+  border-left: 1px solid #e6e6e6;
+}
 a {
   transition: all 0.3s ease-out 0s;
   outline: none !important;
@@ -23,43 +54,18 @@ a {
   text-decoration: none;
 }
 
-.header-title {
-  width: auto;
-  word-wrap: break-word;
-  text-align: center;
-  padding-top: 20px;
+ul {
+  margin-bottom: 0;
 }
 
-.toolbar {
-  border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e6e6e6;
-  margin: 0px 0 20px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0;
 }
-
-.toolrow {
-  border-bottom: 0;
-}
-
-.toolbar .toolrow:last-child {
-  border-bottom: 0;
-}
-
-.toolrow li {
-  display: inline-block;
-  padding: 20px 20px;
-  font-size: 14px;
-  border-right: 1px solid #e6e6e6;
-  max-width: 100%;
-}
-
-
 
 .checkBox {
   position: relative;
   display: inline-block;
+  align-content: center;
   width: 70px;
   height: 35px;
   vertical-align: middle;
@@ -70,6 +76,7 @@ a {
   width: 0;
   height: 0;
 }
+
 .switch {
   position: absolute;
   cursor: pointer;
@@ -96,15 +103,15 @@ a {
   border-radius: 50%;
 }
 
-input:checked + .switch {
+input:checked+.switch {
   background-color: #51b5b1;
 }
 
-input:focus + .switch {
+input:focus+.switch {
   box-shadow: 0 0 1px #51b5b1;
 }
 
-input:checked + .switch:before {
+input:checked+.switch:before {
   -webkit-transform: translateX(34px);
   -ms-transform: translateX(34px);
   transform: translateX(34px);

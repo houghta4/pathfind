@@ -3,32 +3,47 @@
     margin: auto;
 }
 
+.matrixContainer {
+    width: fit-content;
+    margin: auto;
+}
+
+.center {
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+}
+
 .rowContainer {
     display: flex;
 }
 
-button {
-    transition-duration: .2s;
-    background-color: #5783db;
-    color: white;
-    font-size: 20px;
-    padding: 10px 60px;
-    border-radius: 5px;
-    margin: 10px 10px;
-    cursor: pointer;
-    margin-left: 0px;
+.btn-green, .btn-green:focus{
+    background-color: #51b5b1;
+    border: none;
 }
 
-button:hover {
-    background-color: #5783dbdd;
+.my-btn:focus{
+    box-shadow:none;
+}
+.my-btn:hover {
     box-shadow: 0 0 5px 2.5px gray;
+}
+
+.my-btn:active:focus {
+    box-shadow: none;
+}
+
+.btn-green:hover{
+    background-color: #51b5bbff;
 }
 
 /* TODO make this look good (because it definitely doesn't right now) */
 .error {
     display: inline-block;
     padding: 10px 10px;
-    width: fit-content;
+    margin-bottom: 20px;
+    
     color: black;
     background-color: mediumvioletred;
     font-size: large;
