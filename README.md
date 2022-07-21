@@ -19,28 +19,36 @@
 * [UI](#ui-iterations)
   * Continuously changing as I learn and get more practice
 
-# Photos and videos
 
-## Algorithms
+# Algorithms
 
-### A*
+<details>
+ <summary>A*</summary>
+ 
+ ### A*
 
-https://user-images.githubusercontent.com/69610185/179322370-b7857c5e-6ea4-489c-82b2-d810d24a5eb8.mp4
+ https://user-images.githubusercontent.com/69610185/179322370-b7857c5e-6ea4-489c-82b2-d810d24a5eb8.mp4
 
+</details>
 
 # Walls
 
+<details>
+ <summary>Video</summary>
 
-https://user-images.githubusercontent.com/69610185/179873052-65b4f323-fc09-4d54-9b75-f4e5d9f65792.mp4
+ https://user-images.githubusercontent.com/69610185/179873052-65b4f323-fc09-4d54-9b75-f4e5d9f65792.mp4
 
-
+</details>
+ 
 # Moving start and end nodes
 
+<details>
+ <summary>Video</summary>
 
+ https://user-images.githubusercontent.com/69610185/179873465-a970a64e-732c-4c2e-b6d0-7b7caec0cf34.mp4
 
-https://user-images.githubusercontent.com/69610185/179873465-a970a64e-732c-4c2e-b6d0-7b7caec0cf34.mp4
-
-
+</details>
+ 
 # UI Iterations
 
 <details>
