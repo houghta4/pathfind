@@ -44,19 +44,20 @@ https://user-images.githubusercontent.com/69610185/179873465-a970a64e-732c-4c2e-
 # UI Iterations
 
 <details>
- 
-### 3 (current)
+ <summary>Pictures</summary>
 
-![PathFindUI3](https://user-images.githubusercontent.com/69610185/180331802-439af8f8-e4e7-49fb-be5d-a5a6088897da.PNG)
- 
+ ### 3 (current)
 
-### 2
+ ![PathFindUI3](https://user-images.githubusercontent.com/69610185/180331802-439af8f8-e4e7-49fb-be5d-a5a6088897da.PNG)
 
-![PathFindUI2](https://user-images.githubusercontent.com/69610185/180331791-04044658-a528-442a-b86a-031c1dbb8ddd.PNG)
 
- 
-### 1
+ ### 2
 
-![PathFindUI1](https://user-images.githubusercontent.com/69610185/180331775-d7734f72-fefe-4d2e-96e6-c80d3250b359.PNG)
+ ![PathFindUI2](https://user-images.githubusercontent.com/69610185/180331791-04044658-a528-442a-b86a-031c1dbb8ddd.PNG)
+
+
+ ### 1
+
+ ![PathFindUI1](https://user-images.githubusercontent.com/69610185/180331775-d7734f72-fefe-4d2e-96e6-c80d3250b359.PNG)
 
 </details>
