@@ -18,8 +18,9 @@
 * UI [(current)](#3)
   * Continuously changing as I learn and get more practice
 
+# Photos and videos
 
-# Algorithms
+## Algorithms
 
 ### A*
 
