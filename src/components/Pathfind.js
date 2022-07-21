@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Node from "./Node";
 import ButtonAlg from "./ButtonAlg"; // probably wont need anymore
-import Error from "./Error";
 import Alert from "react-bootstrap/Alert";
 import PathFindToolbar from "./PathFindToolbar";
 import Astar from "../algs/astar";
