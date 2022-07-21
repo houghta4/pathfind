@@ -13,7 +13,10 @@
 * Clear button that clears the visited nodes and path nodes of the last search (does not clear walls or start/end)
 
 * Error messages if the user tries to edit the board before clearing, attempts to run another search before clearing, or if there is no path
-
+  * Currently using react-bootstrap for this 
+  
+* UI [(current)](###3)
+  * Continuously changing as I learn and get more practice
 
 
 # Algorithms
@@ -34,4 +37,19 @@ https://user-images.githubusercontent.com/69610185/179873052-65b4f323-fc09-4d54-
 
 
 https://user-images.githubusercontent.com/69610185/179873465-a970a64e-732c-4c2e-b6d0-7b7caec0cf34.mp4
+
+
+# UI Iterations
+
+### 1
+
+![PathFindUI1](https://user-images.githubusercontent.com/69610185/180331775-d7734f72-fefe-4d2e-96e6-c80d3250b359.PNG)
+
+### 2
+
+![PathFindUI2](https://user-images.githubusercontent.com/69610185/180331791-04044658-a528-442a-b86a-031c1dbb8ddd.PNG)
+
+### 3
+
+![PathFindUI3](https://user-images.githubusercontent.com/69610185/180331802-439af8f8-e4e7-49fb-be5d-a5a6088897da.PNG)
 
