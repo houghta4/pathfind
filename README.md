@@ -6,6 +6,7 @@
   
 * [Walls can be placed by clicking a single node or clicking and dragging over multiple nodes](#Walls)
   * Random wall button to place them automatically
+  * Clear walls button to remove all 
   
 * [Start and end nodes can be moved by clicking and draging them from the default location](#Moving-start-and-end-nodes)
   * Searches that happen after a move will reflect these changes
@@ -15,7 +16,7 @@
 * Error messages if the user tries to edit the board before clearing, attempts to run another search before clearing, or if there is no path
   * Currently using react-bootstrap for this 
   
-* UI [(current)](#3)
+* [UI](#ui-iterations)
   * Continuously changing as I learn and get more practice
 
 # Photos and videos
@@ -42,15 +43,20 @@ https://user-images.githubusercontent.com/69610185/179873465-a970a64e-732c-4c2e-
 
 # UI Iterations
 
-### 1
+<details>
+ 
+### 3 (current)
 
-![PathFindUI1](https://user-images.githubusercontent.com/69610185/180331775-d7734f72-fefe-4d2e-96e6-c80d3250b359.PNG)
+![PathFindUI3](https://user-images.githubusercontent.com/69610185/180331802-439af8f8-e4e7-49fb-be5d-a5a6088897da.PNG)
+ 
 
 ### 2
 
 ![PathFindUI2](https://user-images.githubusercontent.com/69610185/180331791-04044658-a528-442a-b86a-031c1dbb8ddd.PNG)
 
-### 3
+ 
+### 1
 
-![PathFindUI3](https://user-images.githubusercontent.com/69610185/180331802-439af8f8-e4e7-49fb-be5d-a5a6088897da.PNG)
+![PathFindUI1](https://user-images.githubusercontent.com/69610185/180331775-d7734f72-fefe-4d2e-96e6-c80d3250b359.PNG)
 
+</details>
