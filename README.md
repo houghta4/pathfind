@@ -15,7 +15,7 @@
 * Error messages if the user tries to edit the board before clearing, attempts to run another search before clearing, or if there is no path
   * Currently using react-bootstrap for this 
   
-* UI [(current)](###3)
+* UI [(current)](#3)
   * Continuously changing as I learn and get more practice
 
 
