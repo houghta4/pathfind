@@ -1,4 +1,4 @@
-# Features (WIP)
+# Features
 
 * [Algorithms](#Algorithms)
   * A*
@@ -32,6 +32,7 @@
 </details>
 
 # Walls
+
 
 <details>
  <summary>Video</summary>
