@@ -1,3 +1,4 @@
+# INFO: Original idea for visualizer that eventually was used in my capstone project. This was rewrote and had many changes compared to what is seen here
 # Features
 
 * [Algorithms](#Algorithms)
